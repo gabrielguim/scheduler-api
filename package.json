@@ -1,0 +1,23 @@
+{
+  "name": "scheduler-api",
+  "version": "1.0.0",
+  "description": "A simple API using Node + Express to a simple scheduler app :)",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabrielguim/scheduler-api.git"
+  },
+  "author": "Gabriel Guimarães",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gabrielguim/scheduler-api/issues"
+  },
+  "homepage": "https://github.com/gabrielguim/scheduler-api#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "http": "0.0.0"
+  }
+}
