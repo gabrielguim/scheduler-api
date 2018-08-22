@@ -7,7 +7,6 @@ router.get('/', (_, res) => {
     res.status(200).json(
         { 
             data: "Hello World",
-            status: 200
         }
     );
 });
