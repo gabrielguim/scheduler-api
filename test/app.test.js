@@ -1,8 +1,8 @@
-const api = require('./routes/api.js')
-const request = require('supertest');
+const app = require('../server.js')
+const request = require('supertest')
 
-request(api)
-  .get('/user')
+request(app)
+  .get('/api')
   .expect('Content-Type', /json/)
   .expect('Content-Length', '15')
   .expect(200)
