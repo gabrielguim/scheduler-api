@@ -2,7 +2,7 @@
 const express = require('express');
 const app = express();
 const swaggerOptions = require('./utils/swagger.js')
-const morganConfig = require('./utils/logfiles.js')
+const morganConfig = require('./utils/log.js')
 const api = require('./routes/api.js')
 const expressSwagger = require('express-swagger-generator')(app);
 
@@ -19,3 +19,5 @@ app.use("/api", api)
 expressSwagger(swaggerOptions)
 
 app.listen(port, () => console.log("Simple Node + Express app running on port ", port))
+
+module.exports = app
