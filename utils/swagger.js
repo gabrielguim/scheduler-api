@@ -10,7 +10,7 @@ module.exports = {
         host: 'localhost:' + port,
         basePath: '/api',
         produces: [
-            "application/json"
+            'application/json'
         ],
         schemes: ['http', 'https'],
     },
