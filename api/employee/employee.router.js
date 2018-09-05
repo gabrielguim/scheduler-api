@@ -4,7 +4,14 @@ const router = express.Router();
 
 router.get('/', (_, res) => {    
     res.status(200).json({
-        data: "GET User works!"
+        data: "GET Employee works!"
+    })
+});
+
+router.get('/:id', (req, res) => {    
+    res.status(200).json({
+        id: req.params.id,
+        data: "GET Employee works!"
     })
 });
 
@@ -14,7 +21,6 @@ router.post('/', (req, res) => {
     })
 });
 
-
 router.put('/:id', (req, res) => {    
     res.status(200).json({
         id: req.params.id,
@@ -22,17 +28,16 @@ router.put('/:id', (req, res) => {
     })
 });
 
-
 router.delete('/', (_, res) => {    
     res.status(200).json({
-        data: "You deleted all users, so i'm fully empty hauehaue"
+        data: "You deleted all employees, so i'm fully empty hauehaue"
     })
 });
 
 router.delete('/:id', (req, res) => {    
     res.status(200).json({
         id: req.params.id,
-        data: `You delete this user with id ${req.params.id}, so i don't exist anymore ahuehaueh`
+        data: `You delete this employees with id ${req.params.id}, so i don't exist anymore ahuehaueh`
     })
 });
 
