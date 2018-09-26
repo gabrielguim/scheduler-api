@@ -7,6 +7,7 @@ const Schema = mongoose.Schema;
  * @author Gabriel Guimarães
  */
 const serviceSchema = new Schema({
+    
     name : {
         type: String,
         required: [true, "Name is required"]

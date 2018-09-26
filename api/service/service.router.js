@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/', (_, res) => {   
     try {
-        const data = ServiceService.getServices();
+        const data = await ServiceService.getAllServices();
         res.status(200).json(data);
     } catch(err) {
         res.status(400).json(err.message);
@@ -19,10 +19,14 @@ router.get('/:id', (req, res) => {
     })
 });
 
-router.post('/', (req, res) => {    
-    res.status(200).json({
-        data: req.body
-    })
+router.post('/', (req, res) => {        
+    try {
+        const service = req.body;
+        const data = await ServiceService.registerService(service);
+        res.status(200).json(data);
+    } catch(err) {
+        res.status(400).json(err.message);
+    }
 });
 
 router.put('/:id', (req, res) => {    
@@ -33,16 +37,22 @@ router.put('/:id', (req, res) => {
 });
 
 router.delete('/', (_, res) => {    
-    res.status(200).json({
-        data: "You deleted all services, so i'm fully empty hauehaue"
-    })
+    try {
+        const data = await ServiceService.removeAllServices();
+        res.status(200).json(data);
+    } catch(err) {
+        res.status(400).json(err.message);
+    }
 });
 
 router.delete('/:id', (req, res) => {    
-    res.status(200).json({
-        id: req.params.id,
-        data: `You delete this services with id ${req.params.id}, so i don't exist anymore ahuehaueh`
-    })
+    try {
+        const serviceId = req.params.id;
+        const data = await ServiceService.removeService(serviceId);
+        res.status(200).json(data);
+    } catch(err) {
+        res.status(400).json(err.message);
+    }
 });
 
 module.exports = router;
