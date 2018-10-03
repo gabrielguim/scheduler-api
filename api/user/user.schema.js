@@ -7,6 +7,7 @@ const Schema = mongoose.Schema;
  * @author Gabriel Guimarães
  */
 const userSchema = new Schema({
+  
     name : {
       type: String,
       required: [true, "Name is required"]
@@ -14,7 +15,6 @@ const userSchema = new Schema({
 
     email : {
       type: String,
-      index: true, // Primary-key
       required: [true, "Email is required"],
       unique: [true, "This email is already registered"]
     },

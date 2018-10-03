@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/', (_, res) => {   
     try {
-        const data = await ServiceService.getAllServices();
+        const data = ServiceService.getAllServices();
         res.status(200).json(data);
     } catch(err) {
         res.status(400).json(err.message);
@@ -22,7 +22,7 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {        
     try {
         const service = req.body;
-        const data = await ServiceService.registerService(service);
+        const data = ServiceService.registerService(service);
         res.status(200).json(data);
     } catch(err) {
         res.status(400).json(err.message);
@@ -38,7 +38,7 @@ router.put('/:id', (req, res) => {
 
 router.delete('/', (_, res) => {    
     try {
-        const data = await ServiceService.removeAllServices();
+        const data = ServiceService.removeAllServices();
         res.status(200).json(data);
     } catch(err) {
         res.status(400).json(err.message);
@@ -48,7 +48,7 @@ router.delete('/', (_, res) => {
 router.delete('/:id', (req, res) => {    
     try {
         const serviceId = req.params.id;
-        const data = await ServiceService.removeService(serviceId);
+        const data = ServiceService.removeService(serviceId);
         res.status(200).json(data);
     } catch(err) {
         res.status(400).json(err.message);

@@ -6,6 +6,8 @@
 /out-tsc
 /log
 
+/firebase/scheduler-admin-key.json
+
 # dependencies
 /node_modules
 
