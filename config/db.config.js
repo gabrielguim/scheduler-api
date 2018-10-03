@@ -15,7 +15,7 @@ module.exports = () => {
    */
   const db_string = process.env.MONGODB_URI || 'mongodb://localhost/' + perfil;
   if (!db.readyState) {
-    const conn = mongoose.connect(db_string);
+    const conn = mongoose.connect(db_string, { useNewUrlParser: true });
   }
 
   db.once('error', console.error.bind(console, 'Something really strange happened...'));
