@@ -6,7 +6,7 @@ const morganConfig = require('./utils/log.js');
 const expressSwagger = require('express-swagger-generator')(app);
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const middleware = require('./utils/middleware.js');
+const middleware = require('./firebase/middleware.js');
 
 // Router
 const userRouter = require('./api/user/user.router.js');
@@ -25,9 +25,10 @@ app.use(bodyParser.json({
 app.use(morganConfig.error);
 app.use(morganConfig.access);
 
-// Define REST API
+// Define Firebase Middleware
 app.use(middleware);
 
+// Define REST API
 app.use('/api/user', userRouter);
 app.use('/api/service', serviceRouter);
 app.use('/api/employee', employeesRouter);

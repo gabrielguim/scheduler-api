@@ -1,11 +1,11 @@
 const express = require('express');
-import { ServiceService } from './service.service';
+import { CalendarService } from './calendar.service';
 
 const router = express.Router();
 
 router.get('/', (req, res) => {   
     try {
-        const data = ServiceService.getAllServices(req.populate);
+        const data = CalendarService.getAllServices(req.populate);
         res.status(200).json(data);
     } catch(err) {
         res.status(400).json(err.message);

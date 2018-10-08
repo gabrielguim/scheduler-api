@@ -8,21 +8,25 @@ const Schema = mongoose.Schema;
  */
 const userSchema = new Schema({
   
-    name : {
+    name: {
       type: String,
       required: [true, "Name is required"]
     },
 
-    email : {
+    email: {
       type: String,
       required: [true, "Email is required"],
       unique: [true, "This email is already registered"]
     },
 
-    password : {
+    uid: {
       type: String,
-      required: [true, "Password is definitely required"]
-    }
+      required: [true, "UID is required"],
+      unique: [true, "This UID is already registered"],
+      index: true
+    },
+
+    calendars: [{ type: Schema.Types.ObjectId, ref: 'Calendar' }]
 
 });
 

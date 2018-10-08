@@ -1,46 +1,61 @@
 const express = require('express');
+import { UserService } from './user.service';
 
 const router = express.Router();
 
-router.get('/', (_, res) => {    
-    res.status(200).json({
-        data: "GET User works!"
-    })
+router.get('/', (req, res) => {    
+    try {
+        const data = UserService.getAllUsers(req.populate);
+        res.status(200).json(data);
+    } catch(err) {
+        res.status(400).json(err.message);
+    }
 });
 
 router.get('/:id', (req, res) => {    
-    res.status(200).json({
-        id: req.params.id,
-        data: "GET User works!"
-    })
+    try {
+        const data = UserService.getUser(req.params.id, req.uid);
+        res.status(200).json(data);
+    } catch(err) {
+        res.status(400).json(err.message);
+    }
+});
+
+router.get('/:id/calendar', (req, res) => {    
+    try {
+        const data = UserService.getUser(req.params.id, req.uid, 'calendar');
+        res.status(200).json(data);
+    } catch(err) {
+        res.status(400).json(err.message);
+    }
 });
 
 router.post('/', (req, res) => {    
-    console.log(req.body);
-    
-    res.status(200).json({
-        data: req.body
-    })
-});
-
-router.put('/:id', (req, res) => {    
-    res.status(200).json({
-        id: req.params.id,
-        data: req.body
-    })
+    try {
+        const user = req.body;
+        const data = UserService.registerUser(user);
+        res.status(200).json(data);
+    } catch(err) {
+        res.status(400).json(err.message);
+    }
 });
 
 router.delete('/', (_, res) => {    
-    res.status(200).json({
-        data: "You deleted all users, so i'm fully empty hauehaue"
-    })
+    try {
+        const data = UserService.removeAllUsers();
+        res.status(200).json(data);
+    } catch(err) {
+        res.status(400).json(err.message);
+    }
 });
 
 router.delete('/:id', (req, res) => {    
-    res.status(200).json({
-        id: req.params.id,
-        data: `You delete this user with id ${req.params.id}, so i don't exist anymore ahuehaueh`
-    })
+    try {
+        const data = UserService.removeUser(req.param.id, req.uid);
+        res.status(200).json(data);
+    } catch(err) {
+        res.status(400).json(err.message);
+    }
 });
 
 module.exports = router;

@@ -1,10 +1,10 @@
-const Service =  require('./service.schema');
+const Service =  require('./calendar.schema');
 
 /**
  * Service
  * @author Gabriel Guimarães
  */
-export class ServiceService {
+export class CalendarService {
 
     /**
      * Get all existent services

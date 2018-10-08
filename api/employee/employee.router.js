@@ -1,44 +1,62 @@
 const express = require('express');
+import { EmployeeService } from './employee.service';
 
 const router = express.Router();
 
-router.get('/', (_, res) => {    
-    res.status(200).json({
-        data: "GET Employee works!"
-    })
+router.get('/', (req, res) => {    
+    try {
+        const data = EmployeeService.getAllEmployees(req.populate);
+        res.status(200).json(data);
+    } catch(err) {
+        res.status(400).json(err.message);
+    }
 });
 
 router.get('/:id', (req, res) => {    
-    res.status(200).json({
-        id: req.params.id,
-        data: "GET Employee works!"
-    })
+    try {
+        const data = EmployeeService.getEmployee(req.params.id, req.uid);
+        res.status(200).json(data);
+    } catch(err) {
+        res.status(400).json(err.message);
+    }
 });
+
+router.get('/:id/service', (req, res) => {    
+    try {
+        const data = EmployeeService.getEmployee(req.params.id, req.uid, 'services');
+        res.status(200).json(data);
+    } catch(err) {
+        res.status(400).json(err.message);
+    }
+});
+
 
 router.post('/', (req, res) => {    
-    res.status(200).json({
-        data: req.body
-    })
-});
-
-router.put('/:id', (req, res) => {    
-    res.status(200).json({
-        id: req.params.id,
-        data: req.body
-    })
+    try {
+        const employee = req.body;
+        const data = EmployeeService.registerEmployee(employee);
+        res.status(200).json(data);
+    } catch(err) {
+        res.status(400).json(err.message);
+    }
 });
 
 router.delete('/', (_, res) => {    
-    res.status(200).json({
-        data: "You deleted all employees, so i'm fully empty hauehaue"
-    })
+    try {
+        const data = EmployeeService.removeAllEmployees();
+        res.status(200).json(data);
+    } catch(err) {
+        res.status(400).json(err.message);
+    }
 });
 
 router.delete('/:id', (req, res) => {    
-    res.status(200).json({
-        id: req.params.id,
-        data: `You delete this employees with id ${req.params.id}, so i don't exist anymore ahuehaueh`
-    })
+    try {
+        const data = EmployeeService.removeEmployee(req.param.id, req.uid);
+        res.status(200).json(data);
+    } catch(err) {
+        res.status(400).json(err.message);
+    }
 });
 
 module.exports = router;

@@ -8,12 +8,12 @@ const Schema = mongoose.Schema;
  */
 const serviceSchema = new Schema({
     
-    name : {
+    name: {
         type: String,
         required: [true, "Name is required"]
     },
 
-    duration : {
+    duration: {
         type: Number,
         required: [true, "Password is definitely required"]
     },
@@ -32,7 +32,7 @@ serviceSchema.pre("save", (next) => {
     if (service.price > 0) {
         return next();
     } else {
-        const err = new Error("A price value needs to be bigger the zero :(")
+        const err = new Error("A price value needs to be bigger then zero :(")
         return next(err);
     }
 });
