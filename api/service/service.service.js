@@ -7,12 +7,22 @@ const Service =  require('./service.schema');
 export class ServiceService {
 
     /**
-     * Get all existent services
+     * Get all existing services
      * 
      * @returns {Promise}  resolved Promise with the service object as mongo returns.
      */
-    static getAllServices(query) {
-      return Service.find().populate(query.populate).exec();
+    static getAllServices() {
+      return Service.find().exec();
+    }
+
+    /**
+     * Get a specific service
+     * 
+     * @param   {String}  id for the service to be find
+     * @returns {Promise}  resolved Promise with the service object as mongo returns.
+     */
+    static getService(id) {
+      return Service.findOne({_id: id}).exec();
     }
 
     /**
@@ -30,6 +40,21 @@ export class ServiceService {
       );
     }
 
+    /**
+     * Updates a service
+     *
+     * @param   {String}  id for the service to be updated
+     * @param   {Object}  newService new service
+     * @return  {Promise}  resolved Promise with the updated object
+     */
+    static updateService(id, newService) {
+      return new Promise((resolve, reject) =>
+        Service.findOneAndUpdate({_id: id}, newService, (err, result) => {
+          if (err || !result) return reject(err);
+          return resolve(result);
+        })
+      );
+    }
 
     /**
      * Removes all services

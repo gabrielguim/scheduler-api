@@ -3,45 +3,65 @@ import { CalendarService } from './calendar.service';
 
 const router = express.Router();
 
-router.get('/', (req, res) => {   
+router.get('/', (_, res) => {   
     try {
-        const data = CalendarService.getAllServices(req.populate);
+        const data = CalendarService.getAllCalendars();
         res.status(200).json(data);
     } catch(err) {
         res.status(400).json(err.message);
     }
 });
 
-router.get('/:id', (req, res) => {    
-    res.status(200).json({
-        id: req.params.id,
-        data: "GET Service works!"
-    })
+router.get('/:userId', (req, res) => {   
+    try {
+        const data = CalendarService.getCalendarsForUser(req.params.userId);
+        res.status(200).json(data);
+    } catch(err) {
+        res.status(400).json(err.message);
+    }
+});
+
+router.get('/:calendarId/:requester', (req, res) => {    
+    try {
+        const data = CalendarService.getCalendar(req.params.calendarId, req.params.requester);
+        res.status(200).json(data);
+    } catch(err) {
+        res.status(400).json(err.message);
+    }
 });
 
 router.post('/', (req, res) => {        
     try {
-        const service = req.body;
-        const data = ServiceService.registerService(service);
+        const calendar = req.body;
+        const data = CalendarService.registerCalendar(calendar);
         res.status(200).json(data);
     } catch(err) {
         res.status(400).json(err.message);
     }
 });
 
-router.delete('/', (_, res) => {    
+router.put('/:calendarId/:ownerId', (req, res) => {        
     try {
-        const data = ServiceService.removeAllServices();
+        const calendar = req.body;
+        const data = CalendarService.updateCalendar(req.params.ownerId, req.params.calendarId, calendar);
         res.status(200).json(data);
     } catch(err) {
         res.status(400).json(err.message);
     }
 });
 
-router.delete('/:id', (req, res) => {    
+router.delete('/:ownerId', (req, res) => {    
     try {
-        const serviceId = req.params.id;
-        const data = ServiceService.removeService(serviceId);
+        const data = CalendarService.removeAllCalendarsForUser(req.params.ownerId);
+        res.status(200).json(data);
+    } catch(err) {
+        res.status(400).json(err.message);
+    }
+});
+
+router.delete('/:calendarId/:ownerId', (req, res) => {    
+    try {
+        const data = CalendarService.removeCalendar(req.params.ownerId, req.params.calendarId);
         res.status(200).json(data);
     } catch(err) {
         res.status(400).json(err.message);

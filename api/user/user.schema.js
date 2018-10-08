@@ -24,9 +24,7 @@ const userSchema = new Schema({
       required: [true, "UID is required"],
       unique: [true, "This UID is already registered"],
       index: true
-    },
-
-    calendars: [{ type: Schema.Types.ObjectId, ref: 'Calendar' }]
+    }
 
 });
 

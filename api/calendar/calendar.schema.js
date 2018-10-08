@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 /**
- * Schema that represents a calendar in your database
+ * Schema that represents an calendar in your database
  * @author Gabriel Guimarães
  */
 const calendarSchema = new Schema({
@@ -32,20 +32,15 @@ const calendarSchema = new Schema({
     occupedSlots: [
         {
             service: {
-                type: Schema.Types.ObjectId, 
-                ref: 'Service',
+                type: Object,
                 required: [true, "Service is required"] 
             },
 
-            slot: {
-                type: String,
-                required: [true, "Slot is required"] 
-            },
+            slot: String,
 
             owner: {
-                type: Schema.Types.ObjectId, 
-                ref: 'User',
-                required: [true, "Owner is required"] 
+                type: Object,
+                required: [true, "User is required"] 
             }
         }
     ],

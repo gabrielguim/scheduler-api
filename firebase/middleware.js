@@ -7,7 +7,11 @@ module.exports = (req, res, next) => {
 
         auth.verifyIdToken(token, true)
             .then(data => {
-                next();
+                if (data.user.uid === uid) next();
+                res.status(401).send({
+                    code: "invalid-uid",
+                    msg: "Ops. O UID informado não é o mesmo associado ao Token."
+                });
             }).catch(_ => {
                 res.status(401).send({
                     code: "invalid-token",

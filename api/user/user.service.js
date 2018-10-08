@@ -10,22 +10,12 @@ dbConfig();
 export class UserService {
 
     /**
-     * Get all existent users
+     * Get all existing users
      * 
      * @returns {Promise}  resolved Promise with the user object as mongo returns.
      */
-    static getAllUsers(populate = "") {
-      return User.find().populate(populate).exec();
-    }
-
-    /**
-     * Get all calendars for an user
-     *
-     * @param   {String}  uid for the user
-     * @return  {Promise}  resolved Promise with the user object as mongo returns.
-     */
-    static getUser(id, uid, populate = "") {
-      return User.findOne({_id: id, uid: uid}).populate(populate).exec();
+    static getAllUsers() {
+      return User.find().exec();
     }
 
     /**
@@ -44,6 +34,22 @@ export class UserService {
       );
     }
 
+    /**
+     * Updates a user
+     *
+     * @param   {String}  id for the user to be updated
+     * @param   {String}  uid for the user to be updated
+     * @param   {Object}  newUser new user
+     * @return  {Promise}  resolved Promise with the updated object
+     */
+    static updateUser(id, uid, newUser) {
+      return new Promise((resolve, reject) =>
+        User.findOneAndUpdate({_id: id, uid: uid}, newUser, (err, result) => {
+          if (err || !result) return reject(err);
+          return resolve(result);
+        })
+      );
+    }
 
     /**
      * Removes all users

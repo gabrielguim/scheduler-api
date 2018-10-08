@@ -15,26 +15,25 @@ const serviceSchema = new Schema({
 
     duration: {
         type: Number,
-        required: [true, "Password is definitely required"]
+        required: [true, "Duration is definitely required"]
     },
 
     price: {
         type: Number,
         required: [true, "A price value is required"]
-    },
-
-    employees: [{ type: Schema.Types.ObjectId, ref: 'Employee' }]
+    }
 
 });
 
 serviceSchema.pre("save", (next) => {
     const service = this;
-    if (service.price > 0) {
+    if (service.price > 0 && service.duration > 0) {
         return next();
     } else {
-        const err = new Error("A price value needs to be bigger then zero :(")
+        const err = new Error("Price or Duration needs to be bigger then zero :(")
         return next(err);
     }
+    
 });
 
 module.exports = mongoose.model('Service', serviceSchema);

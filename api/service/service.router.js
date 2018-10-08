@@ -3,9 +3,9 @@ import { ServiceService } from './service.service';
 
 const router = express.Router();
 
-router.get('/', (req, res) => {   
+router.get('/', (_, res) => {   
     try {
-        const data = ServiceService.getAllServices(req.populate);
+        const data = ServiceService.getAllServices();
         res.status(200).json(data);
     } catch(err) {
         res.status(400).json(err.message);
@@ -13,16 +13,28 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {    
-    res.status(200).json({
-        id: req.params.id,
-        data: "GET Service works!"
-    })
+    try {
+        const data = ServiceService.getService(req.params.id);
+        res.status(200).json(data);
+    } catch(err) {
+        res.status(400).json(err.message);
+    }
 });
 
 router.post('/', (req, res) => {        
     try {
         const service = req.body;
         const data = ServiceService.registerService(service);
+        res.status(200).json(data);
+    } catch(err) {
+        res.status(400).json(err.message);
+    }
+});
+
+router.put('/:id', (req, res) => {    
+    try {
+        const service = req.body;
+        const data = ServiceService.updateService(req.params.id, service);
         res.status(200).json(data);
     } catch(err) {
         res.status(400).json(err.message);
@@ -40,8 +52,7 @@ router.delete('/', (_, res) => {
 
 router.delete('/:id', (req, res) => {    
     try {
-        const serviceId = req.params.id;
-        const data = ServiceService.removeService(serviceId);
+        const data = ServiceService.removeService(req.params.id);
         res.status(200).json(data);
     } catch(err) {
         res.status(400).json(err.message);

@@ -12,6 +12,7 @@ const middleware = require('./firebase/middleware.js');
 const userRouter = require('./api/user/user.router.js');
 const serviceRouter = require('./api/service/service.router.js');
 const employeesRouter = require('./api/employee/employee.router.js');
+const calendarRouter = require('./api/calendar/calendar.router.js');
 
 const port = 3001;
 
@@ -32,6 +33,7 @@ app.use(middleware);
 app.use('/api/user', userRouter);
 app.use('/api/service', serviceRouter);
 app.use('/api/employee', employeesRouter);
+app.use('/api/calendar', calendarRouter);
 
 // Swagger Docs Options
 expressSwagger(swaggerOptions);
