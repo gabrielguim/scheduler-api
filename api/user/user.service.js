@@ -15,7 +15,12 @@ export class UserService {
      * @returns {Promise}  resolved Promise with the user object as mongo returns.
      */
     static getAllUsers() {
-      return User.find().exec();
+      return new Promise((resolve, reject) => {
+        User.find({}, (err, results) => {
+          if (err) return reject(err);
+          return resolve(results);
+        });
+      });
     }
 
     /**
@@ -73,7 +78,12 @@ export class UserService {
      */
     static registerUser(user) {
       const userMongoose = new User(user);
-      return userMongoose.save();
+      return new Promise((resolve, reject) =>
+        userMongoose.save((err, result) => {
+          if (err || !result) return reject(err);
+          return resolve(result);
+        })
+      );
     }
     
     /**
@@ -84,7 +94,7 @@ export class UserService {
      */
     static getUser(uid) {
       return new Promise((resolve, reject) =>
-        User.findOne({uid: uid}, (err, result) => {
+        User.findOne({ uid: uid }, (err, result) => {
           if (err || !result) return reject(err);
           return resolve(result);
         })
