@@ -75,5 +75,20 @@ export class UserService {
       const userMongoose = new User(user);
       return userMongoose.save();
     }
+    
+    /**
+     * Get a user by uid
+     *
+     * @param   {Object}  uid to be used for search
+     * @return  {Promise}  resolved Promise with the user object as mongo returns.
+     */
+    static getUser(uid) {
+      return new Promise((resolve, reject) =>
+        User.findOne({uid: uid}, (err, result) => {
+          if (err || !result) return reject(err);
+          return resolve(result);
+        })
+      );
+    }
   
 }

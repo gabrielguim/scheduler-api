@@ -12,19 +12,19 @@ router.get('/', (_, res) => {
     }
 });
 
-router.get('/:id', (req, res) => {    
+router.get('/:uid', async (req, res) => {    
     try {
-        const data = UserService.getUser(req.params.id, req.uid);
+        const data = await UserService.getUser(req.params.uid);
         res.status(200).json(data);
     } catch(err) {
         res.status(400).json(err.message);
     }
 });
 
-router.post('/', (req, res) => {    
+router.post('/', async (req, res) => {    
     try {
         const user = req.body;
-        const data = UserService.registerUser(user);
+        const data = await UserService.registerUser(user);
         res.status(200).json(data);
     } catch(err) {
         res.status(400).json(err.message);
