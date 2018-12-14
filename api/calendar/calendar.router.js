@@ -12,38 +12,48 @@ router.get('/', (_, res) => {
     }
 });
 
-router.get('/:userId', (req, res) => {   
+router.get('/:userId', async (req, res) => {   
     try {
-        const data = CalendarService.getCalendarsForUser(req.params.userId);
+        var data = null;
+        if (req.query.text) {
+            data = await CalendarService.searchCalendar(req.query.text, req.params.userId);
+        } else {
+            data = await CalendarService.getCalendarsForUser(req.params.userId);
+        }
+
         res.status(200).json(data);
     } catch(err) {
         res.status(400).json(err.message);
     }
 });
 
-router.get('/:calendarId/:requester', (req, res) => {    
+router.get('/shared/:requester', async (req, res) => {    
     try {
-        const data = CalendarService.getCalendar(req.params.calendarId, req.params.requester);
+        const data = await CalendarService.getSharedCalendars(req.params.requester);
         res.status(200).json(data);
     } catch(err) {
-        res.status(400).json(err.message);
+        res.status(400).json({
+            violations: err.message
+        });
     }
 });
 
-router.post('/', (req, res) => {        
+router.post('/', async (req, res) => {        
     try {
         const calendar = req.body;
-        const data = CalendarService.registerCalendar(calendar);
+        const data = await CalendarService.registerCalendar(calendar);
         res.status(200).json(data);
     } catch(err) {
-        res.status(400).json(err.message);
+        res.status(400).json({
+            violations: err.message
+        });
     }
 });
 
-router.put('/:calendarId/:ownerId', (req, res) => {        
+router.put('/:calendarId/:ownerId', async (req, res) => {        
     try {
         const calendar = req.body;
-        const data = CalendarService.updateCalendar(req.params.ownerId, req.params.calendarId, calendar);
+        const data = await CalendarService.updateCalendar(req.params.ownerId, req.params.calendarId, calendar);
         res.status(200).json(data);
     } catch(err) {
         res.status(400).json(err.message);
@@ -59,9 +69,9 @@ router.delete('/:ownerId', (req, res) => {
     }
 });
 
-router.delete('/:calendarId/:ownerId', (req, res) => {    
+router.delete('/:calendarId/:ownerId', async (req, res) => {    
     try {
-        const data = CalendarService.removeCalendar(req.params.ownerId, req.params.calendarId);
+        const data = await CalendarService.removeCalendar(req.params.ownerId, req.params.calendarId);
         res.status(200).json(data);
     } catch(err) {
         res.status(400).json(err.message);

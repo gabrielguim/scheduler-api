@@ -20,7 +20,7 @@ const calendarSchema = new Schema({
 
     owner: { 
         type: Schema.Types.ObjectId, 
-        ref: 'Employee',
+        ref: 'User',
         required: [true, "Owner is required"] 
     },
 
@@ -29,21 +29,24 @@ const calendarSchema = new Schema({
         required: [true, "At least one slot is required"] 
     },
 
-    occupedSlots: [
-        {
-            service: {
-                type: Object,
-                required: [true, "Service is required"] 
-            },
-
-            slot: String,
-
-            owner: {
-                type: Object,
-                required: [true, "User is required"] 
+    occupedSlots: {
+        type : [
+            {
+                service: {
+                    type: Object,
+                    required: [true, "Service is required"] 
+                },
+    
+                slot: String,
+    
+                owner: {
+                    type: Object,
+                    required: [true, "User is required"] 
+                }
             }
-        }
-    ],
+        ],
+        default: []
+    },
 
     users: [String]
 

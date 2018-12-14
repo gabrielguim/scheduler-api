@@ -12,7 +12,12 @@ export class CalendarService {
      * @returns {Promise}  resolved Promise with the calendar object as mongo returns.
      */
     static getAllCalendars() {
-      return Calendar.find().populate('owner').exec();
+      return new Promise((resolve, reject) =>
+        Calendar.find().populate('owner').exec((err, result) => {
+          if (err || !result) return reject(err);
+          return resolve(result);
+        })
+      );
     }
 
     /**
@@ -21,7 +26,26 @@ export class CalendarService {
      * @returns {Promise}  resolved Promise with the calendar object as mongo returns.
      */
     static getCalendarsForUser(userId) {
-      return Calendar.find({owner: userId}).populate('owner').exec();
+      return new Promise((resolve, reject) =>
+        Calendar.find({owner: userId}).populate('owner').exec((err, result) => {
+          if (err || !result) return reject(err);
+          return resolve(result);
+        })
+      );
+    }
+
+    /**
+     * Search all existing calendars with the param name for a specific user 
+     * 
+     * @returns {Promise}  resolved Promise with the calendar object as mongo returns.
+     */
+    static searchCalendar(text, userId) {
+      return new Promise((resolve, reject) =>
+        Calendar.find({owner: userId, name: { $regex : `.*${text}.*`, $options: 'i' }}).populate('owner').exec((err, result) => {
+          if (err || !result) return reject(err);
+          return resolve(result);
+        })
+      );
     }
 
     /**
@@ -31,8 +55,13 @@ export class CalendarService {
      * @param   {String}  requester id for the requestser
      * @returns {Promise}  resolved Promise with the calendar object as mongo returns.
      */
-    static getCalendar(id, requester) {
-      return Calendar.findOne({_id: id, users: requester}).populate('owner').exec();
+    static getSharedCalendars(requester) {      
+      return new Promise((resolve, reject) =>
+        Calendar.find({users: requester}).populate('owner').exec((err, result) => {
+          if (err || !result) return reject(err);
+          return resolve(result);
+        })
+      );
     }
 
     /**
@@ -46,7 +75,7 @@ export class CalendarService {
       return new Promise((resolve, reject) =>
         Calendar.findOneAndRemove({_id: calendarId, owner: ownerId}, (err, result) => {
           if (err || !result) return reject(err);
-          return resolve(result);
+          return resolve(this.getCalendarsForUser(ownerId));
         })
       );
     }
@@ -90,7 +119,12 @@ export class CalendarService {
      */
     static registerCalendar(calendar) {
       const calendarMongoose = new Calendar(calendar);
-      return calendarMongoose.save();
+      return new Promise((resolve, reject) =>
+        calendarMongoose.save((err, result) => {
+          if (err || !result) return reject(err);
+          return resolve(this.getCalendarsForUser(calendar.owner._id));
+        })
+      );
     }
   
 }
